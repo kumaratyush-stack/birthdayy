@@ -2,103 +2,123 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Happy Birthday 🎂</title>
+<title>Happy Birthday Miss Chaitali 🎂</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #ff758c, #ff7eb3);
-  color: white;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  color: #fff;
   text-align: center;
-  overflow-x: hidden;
 }
 
 h1 {
-  margin-top: 40px;
-  font-size: 2.8em;
+  margin-top: 25px;
+  font-size: 2.5em;
   animation: glow 1.5s infinite alternate;
 }
 
 @keyframes glow {
   from { text-shadow: 0 0 10px #fff; }
-  to { text-shadow: 0 0 30px #ffd1dc; }
+  to { text-shadow: 0 0 25px #ffd1dc; }
 }
 
 .card {
-  background: rgba(255,255,255,0.15);
-  padding: 25px;
-  margin: 30px auto;
+  background: rgba(255,255,255,0.2);
+  padding: 20px;
+  margin: 20px auto;
   width: 90%;
   max-width: 600px;
   border-radius: 20px;
-  backdrop-filter: blur(8px);
+}
+
+.slideshow {
+  width: 100%;
+  height: 280px;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.slideshow img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
 }
 
 #message {
-  font-size: 1.1em;
+  font-size: 1.05em;
   line-height: 1.7;
-  min-height: 160px;
+  min-height: 180px;
 }
 
 button {
-  margin-top: 20px;
+  margin-top: 15px;
   padding: 12px 25px;
   border: none;
-  border-radius: 30px;
-  background: white;
-  color: #ff4f81;
+  border-radius: 25px;
+  background: #fff;
+  color: #ff5f8a;
   font-size: 1em;
   cursor: pointer;
 }
 
-button:hover {
-  background: #ffe1ea;
-}
-
 .footer {
-  margin: 30px 0;
+  margin: 25px 0;
   font-size: 0.9em;
-  opacity: 0.9;
 }
 </style>
 </head>
 
 <body>
 
-<h1>🎉 Happy Birthday, <span id="name">HER NAME</span> 🎉</h1>
+<h1>🎉 Happy Birthday Miss Chaitali 🎉</h1>
 
 <div class="card">
+
+  <!-- Slideshow -->
+  <div class="slideshow">
+    <img src="photo1.jpg" style="display:block;">
+    <img src="photo2.jpg">
+    <img src="photo3.jpg">
+  </div>
+
+  <!-- Message -->
   <div id="message"></div>
-  <button onclick="startMusic()">🎶 Play Music</button>
+
+  <button onclick="startMusic()">🎶 Play Birthday Music</button>
+
 </div>
 
 <div class="footer">
-  Made with ❤️ by YOUR NAME
+  Made with 💖 and lots of smiles
 </div>
 
-<!-- Background Music -->
-<audio id="bgMusic" loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+<!-- Music (≈1 min) -->
+<audio id="bgMusic">
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mp3">
 </audio>
 
 <!-- Confetti -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
-const text = `Dear HER NAME 💖,
+// Typing message
+const text = `Hey Miss Chaitali 😄🎂,
 
-Today is not just your birthday,
-it’s a celebration of your smile,
-your kindness, and the happiness you spread.
+Wishing you a day full of smiles, laughter,
+and all the happiness you truly deserve 🌸
 
-May your life be filled with love,
-success, and moments that make you smile endlessly ✨
+May your birthday be as cute, fun,
+and amazing as you are ✨
 
-Never forget how special you are 🌸
+Keep smiling, keep shining,
+and never stop being awesome 😎💖
 
-Happy Birthday once again 🎂💫`;
+Happy Birthday once again 🎉🎂`;
 
 let i = 0;
 function typeEffect() {
@@ -110,15 +130,26 @@ function typeEffect() {
 }
 typeEffect();
 
-// Confetti burst
+// Slideshow
+let slideIndex = 0;
+const slides = document.querySelectorAll(".slideshow img");
+
+setInterval(() => {
+  slides[slideIndex].style.display = "none";
+  slideIndex = (slideIndex + 1) % slides.length;
+  slides[slideIndex].style.display = "block";
+}, 3000);
+
+// Confetti
 setInterval(() => {
   confetti({
     particleCount: 80,
     spread: 70,
     origin: { y: 0.6 }
   });
-}, 3000);
+}, 3500);
 
+// Music
 function startMusic() {
   document.getElementById("bgMusic").play();
 }
