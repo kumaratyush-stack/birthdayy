@@ -2,21 +2,31 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Happy Birthday Miss Chaitali 🎂</title>
+<title>Happy Birthday Miss Chaitali 🎉</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-  color: #fff;
+  color: white;
   text-align: center;
+  overflow-x: hidden;
+  animation: partyBg 15s infinite;
+}
+
+/* Party background */
+@keyframes partyBg {
+  0%   { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
+  25%  { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+  50%  { background: linear-gradient(135deg, #84fab0, #8fd3f4); }
+  75%  { background: linear-gradient(135deg, #fbc8d4, #9795f0); }
+  100% { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
 }
 
 h1 {
   margin-top: 25px;
-  font-size: 2.5em;
+  font-size: 2.4em;
   animation: glow 1.5s infinite alternate;
 }
 
@@ -32,11 +42,13 @@ h1 {
   width: 90%;
   max-width: 600px;
   border-radius: 20px;
+  backdrop-filter: blur(8px);
 }
 
+/* Slideshow */
 .slideshow {
   width: 100%;
-  height: 280px;
+  height: 260px;
   border-radius: 15px;
   overflow: hidden;
   margin-bottom: 15px;
@@ -52,73 +64,100 @@ h1 {
 #message {
   font-size: 1.05em;
   line-height: 1.7;
-  min-height: 180px;
-}
-
-button {
-  margin-top: 15px;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 25px;
-  background: #fff;
-  color: #ff5f8a;
-  font-size: 1em;
-  cursor: pointer;
+  min-height: 170px;
 }
 
 .footer {
   margin: 25px 0;
   font-size: 0.9em;
 }
+
+/* Balloons */
+.balloons {
+  position: fixed;
+  bottom: -60px;
+  width: 100%;
+  font-size: 2.3em;
+  animation: floatUp 12s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0); opacity: 0.9; }
+  to { transform: translateY(-120vh); opacity: 0; }
+}
+
+/* Start overlay */
+#startScreen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  flex-direction: column;
+}
+
+#startScreen button {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.2em;
+  background: #fff;
+  color: #ff5f8a;
+  cursor: pointer;
+}
 </style>
 </head>
 
 <body>
 
-<h1>🎉 Happy Birthday Miss Chaitali 🎉</h1>
+<!-- Start Screen -->
+<div id="startScreen">
+  <h2>🎉 Ready to Party? 🎉</h2>
+  <button onclick="startParty()">Tap to Start the Celebration 🎂</button>
+</div>
+
+<h1>🎂 Happy Birthday Miss Chaitali 🎂</h1>
 
 <div class="card">
-
-  <!-- Slideshow -->
   <div class="slideshow">
     <img src="photo1.jpg" style="display:block;">
     <img src="photo2.jpg">
     <img src="photo3.jpg">
   </div>
 
-  <!-- Message -->
   <div id="message"></div>
-
-  <button onclick="startMusic()">🎶 Play Birthday Music</button>
-
 </div>
 
 <div class="footer">
-  Made with 💖 and lots of smiles
+  Made with 💖 & fun vibes
 </div>
 
-<!-- Music (≈1 min) -->
+<div class="balloons">🎈 🎉 🎂 🎈 🎉 🎂 🎈 🎉</div>
+
+<!-- Music (~1 min) -->
 <audio id="bgMusic">
   <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mp3">
 </audio>
 
-<!-- Confetti -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
-// Typing message
-const text = `Hey Miss Chaitali 😄🎂,
+/* Message typing */
+const text = `Hey Miss Chaitali 😄🎉,
 
-Wishing you a day full of smiles, laughter,
-and all the happiness you truly deserve 🌸
+Today is all about smiles, fun,
+and celebrating the amazing person you are 🌸
 
-May your birthday be as cute, fun,
-and amazing as you are ✨
+May your day be filled with laughter,
+sweet moments, and happy surprises 🎁✨
 
-Keep smiling, keep shining,
-and never stop being awesome 😎💖
+Stay cheerful, stay awesome,
+and keep spreading positivity 😎💖
 
-Happy Birthday once again 🎉🎂`;
+Happy Birthday once again 🎂🎉`;
 
 let i = 0;
 function typeEffect() {
@@ -128,30 +167,40 @@ function typeEffect() {
     setTimeout(typeEffect, 40);
   }
 }
-typeEffect();
 
-// Slideshow
+/* Slideshow */
 let slideIndex = 0;
 const slides = document.querySelectorAll(".slideshow img");
+function startSlideshow() {
+  setInterval(() => {
+    slides[slideIndex].style.display = "none";
+    slideIndex = (slideIndex + 1) % slides.length;
+    slides[slideIndex].style.display = "block";
+  }, 3000);
+}
 
-setInterval(() => {
-  slides[slideIndex].style.display = "none";
-  slideIndex = (slideIndex + 1) % slides.length;
-  slides[slideIndex].style.display = "block";
-}, 3000);
+/* Confetti rain */
+function startConfetti() {
+  const confettiInterval = setInterval(() => {
+    confetti({
+      particleCount: 6,
+      spread: 360,
+      startVelocity: 2,
+      gravity: 0.3,
+      origin: { x: Math.random(), y: 0 }
+    });
+  }, 400);
 
-// Confetti
-setInterval(() => {
-  confetti({
-    particleCount: 80,
-    spread: 70,
-    origin: { y: 0.6 }
-  });
-}, 3500);
+  setTimeout(() => clearInterval(confettiInterval), 60000);
+}
 
-// Music
-function startMusic() {
+/* Start everything */
+function startParty() {
+  document.getElementById("startScreen").style.display = "none";
   document.getElementById("bgMusic").play();
+  typeEffect();
+  startSlideshow();
+  startConfetti();
 }
 </script>
 
